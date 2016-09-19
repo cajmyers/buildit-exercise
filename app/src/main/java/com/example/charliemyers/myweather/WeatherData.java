@@ -1,5 +1,6 @@
 package com.example.charliemyers.myweather;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -8,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,12 +23,14 @@ public class WeatherData extends
         AsyncTask<String, String, JSONObject> {
 
     private String TAG = WeatherData.class.getSimpleName();
+    private Context mContext;
     private final DayWeatherListAdapter mAdapter;
     private String mBaseURL;
     private String mPositionParams;
     private Integer mDayIndex;
 
-    public WeatherData(DayWeatherListAdapter adapter, Integer dayIndex) {
+    public WeatherData(Context context, DayWeatherListAdapter adapter, Integer dayIndex) {
+        mContext = context;
         mAdapter = adapter;
         mBaseURL = "http://api.openweathermap.org/data/2.5/forecast?mode=json&units=metric&appid=d9b7441dea671177a81f3b42c620cbe1";
         mDayIndex = dayIndex;
@@ -67,15 +72,31 @@ public class WeatherData extends
     @Override
     protected JSONObject doInBackground(String... params) {
         JSONObject jsonObj = null;
-        try {
-            String url = mBaseURL+mPositionParams;
-            HTTPHandler handler = new HTTPHandler();
-            String jsonStr = handler.makeServiceCall(url);
-            Log.d(TAG, "Response from url: " + jsonStr);
-            jsonObj = new JSONObject(jsonStr);
-        }
-        catch (final JSONException e) {
-            Log.e(TAG, "Json parsing error: " + e.getMessage());
+        if (Config.UseLocalFixture) {
+            try {
+                String jsonStr;
+                InputStream is = mContext.getAssets().open("fixture.json");
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                jsonStr = new String(buffer, "UTF-8");
+                jsonObj = new JSONObject(jsonStr);
+            } catch (IOException e) {
+                Log.e(TAG, "Json parsing error: " + e.getMessage());
+            } catch (JSONException e) {
+                Log.e(TAG, "Json parsing error: " + e.getMessage());
+            }
+        } else {
+            try {
+                String url = mBaseURL + mPositionParams;
+                HTTPHandler handler = new HTTPHandler();
+                String jsonStr = handler.makeServiceCall(url);
+                Log.d(TAG, "Response from url: " + jsonStr);
+                jsonObj = new JSONObject(jsonStr);
+            } catch (final JSONException e) {
+                Log.e(TAG, "Json parsing error: " + e.getMessage());
+            }
         }
         return jsonObj;
     }

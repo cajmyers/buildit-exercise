@@ -48,7 +48,7 @@ public class DayFragment extends ListFragment {
         DayWeatherListAdapter adapter = new DayWeatherListAdapter(getActivity());
         setListAdapter(adapter);
 
-        mloadData = new WeatherData(adapter, dayIndex);
+        mloadData = new WeatherData(getActivity(), adapter, dayIndex);
         load(longitude, latitude);
 
         return rootView;
