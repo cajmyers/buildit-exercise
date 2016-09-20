@@ -36,9 +36,9 @@ I was planning to have a dashboard page that allowed the user to get the weather
 * At next holiday destination (selected by the user)
 * At the next fixture (I was going to use the API at _http://api.football-data.org_ to get the next Chelsea fixture location)
 
-Most of the groundwork is in place but I sadly run out of time.
+Most of the groundwork is in place but I sadly ran out of time.
 
-Features, however, need to be based on your target users. Who are aiming the application at? Some example target audiences might be:
+Features, however, need to be based on your target users. Who are you aiming the application at? Some example target audiences might be:
 * Sailors and boat owners. You'd probably look to change the input source to one that provided shipping forecasts rather than general weather. The app may also focus on weather warnings for the location(s) your boat/ship/fleet is moored or common routes. 
 * Golfers. Location selection may be by golf course rather than selecting specific places or geo-locations.
 * Outdoor event organizers. Query the calendar for the next 5 days and pull out all the events that have an associated location. You could then show the forecast for the given location for the time of the event.
