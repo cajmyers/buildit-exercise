@@ -19,7 +19,9 @@ public class Config {
 ## Enhancements
 
 ### Testing
-_Todo_
+You'll notice there are no unit tests. These were emitted not because they are unimportant but purely due to time pressure (I concentrated on getting something working first then ran out of time). On any normal project unit tests, acceptance tests an GUI tests are vital. The nature of agile development involves building technical debt and regularly refactoring and enhancing. This is made possible by having a robust suite of regression tests. The majority of these regression suites are formed from the unit tests you build as you code. 
+
+I've added a local JSON fixture file which could be used for testing. Really you'd want to use something like Mockito to test external resources as you can also simulate network errors, etc. There are a number of tools and resources available to ensure you have a strong testing setup. These include tools for more nuanced assertions, code coverage tools and continuous integration tools such as Jenkins.
 
 ### Fixes and Technical Debt
 * Getting the geo-location went in late. With more time I'd certainly implement this differently. For starters, I only call this once on creation and just to get the last known location. It should actively request the current location and handle location updates.
